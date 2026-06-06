@@ -4,7 +4,14 @@
 https://github.com/pizza1016/ptv-timetable/blob/trunk/tramtracker/asyncapi.py#L76
 Using aiohttp.client ClientSession
 - This uses async, and an event loop must be running (I don't know what this means...)
-  #+TITLE: Project Scratch
+* Requirements
+- =openmeteo-requests=
+- =pyserial=
+- =pandas=
+- =requests-cache=
+- =retry-requests=
+- =aiohttp=
+
 * TODOs
 ** Manual
 *** General
