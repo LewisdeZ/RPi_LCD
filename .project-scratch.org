@@ -17,6 +17,33 @@ Push and pull from the Raspberry Pi as needed. If you run into credentials troub
 bash ~/load_github_credentials.sh
 #+end_src
 
+* Automatically starting with systemd
+In order to run on boot, I created a Systemd Service, located at =/lib/systemd/system/rpi-lcd.service=.
+#+begin_src sh
+[Unit]
+Description=Run the python program to control the Arduino keypad and LCD screen
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kitchenpi
+WorkingDirectory=/home/<USERNAME>/Documents/RPi_LCD
+ExecStart=/home/<USERNAME>/Documents/RPi_LCD/env/bin/python main.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+Then, reload systemd, enable on boot, and start it now!
+#+begin_src sh
+sudo systemctl daemon-reload
+sudo systemctl enable rpi-lcd.service
+sudo systemctl start rpi-lcd.service
+#+end_src
+
 * TODOs
 ** Manual
 *** General

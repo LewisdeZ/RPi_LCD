@@ -39,8 +39,8 @@ def get_weather():
 
     Returns:
         Dict containing two strings with keys:
-            ['temp', 'weather_type']
-            E.g. {'temp': '5° - 19° | 14°', 'weather': 'Overcast'}
+            ['hourly_temps' 'min-max_temps', 'weather_type']
+            E.g. {'min-max_temps': '5° - 19° | 14°', 'weather': 'Overcast'}
     '''
     weather_codes = {
         0: "Clear sky",
@@ -82,7 +82,7 @@ def get_weather():
 
     # Get a resonse from the OpenMeteo API
     response = get_response_openmeteo()
-    weather_dict = {} # {'hourly': {0: ..., 1: ...}, 'temp': {0: ..., 1: ...},...}
+    weather_dict = {} # {'hourly_temps': {0: ..., 1: ...}, 'min-max_temps': {0: ..., 1: ...},...}
 
     # Process current data. The order of variables needs to be the same as requested.
     current = response.Current()
@@ -127,7 +127,7 @@ def get_weather():
 
     # E.g 10  11  12  13
     #     12° 15° 20° 25°
-    weather_dict['hourly'] = {
+    weather_dict['hourly_temps'] = {
         0: "".join(f"{selected_times[i].hour:<4}" for i in range(4)),
         1: "".join(f"{str(round(selected_temps[i]))+'°':<4}" for i in range(4)),
     }
@@ -135,7 +135,7 @@ def get_weather():
     # Get a semi-readable temperature string
     # Formatted as f"{low}° - {high}° | {current}°"
     # E.g.          "5° - 15° | 12°"
-    weather_dict['temp'] = {
+    weather_dict['min-max_temps'] = {
         0: "LOW - HIGH | CUR",
         1: \
         f"{int(daily_temperature_2m_min[0]):>3}° - "\
@@ -155,8 +155,8 @@ def get_weather():
 class Weather:
     def __init__(self):
         self.app_string={0: "", 1: ""}
-        self.current_type = 'hourly' # Default view
-        self.weather_menu_cycle = CyclicList(['hourly', 'temp', 'weather_type'])
+        self.current_type = 'hourly_temps' # Default view
+        self.weather_menu_cycle = CyclicList(['hourly_temps', 'min-max_temps', 'weather_type'])
         self.in_menu = True
         pass
     def __call__(self):
@@ -168,7 +168,7 @@ class Weather:
             self.app_string[1] = self.weather_menu_cycle.getList()[1].replace("_", " ").upper()
 
         else:
-            weather_dict = get_weather() # {'hourly': ..., 'temp': ..., 'weather_type'}
+            weather_dict = get_weather() # {'hourly_temps': ..., 'min-max_temps': ..., 'weather_type'}
             self.app_string = weather_dict[self.current_type]
 
         return self.app_string
@@ -209,7 +209,6 @@ class Weather:
 
 if __name__ == '__main__':
     weather_dict = get_weather()
-    print(weather_dict['temp'])
+    print(weather_dict['min-max_temps'])
     print(weather_dict['weather_type'])
-    print(weather_dict['hourly'])
-
+    print(weather_dict['hourly_temps'])

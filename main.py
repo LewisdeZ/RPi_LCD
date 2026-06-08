@@ -19,6 +19,8 @@ if __name__ == '__main__':
     # Set up the arduino serial port
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
     time.sleep(2)  # wait for Arduino reset
+    write_to_screen(ser, "Raspberry Ready!", 0)
+
 
     # Define an apps dictionary that contains the apps and their names
     apps = []
