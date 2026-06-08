@@ -4,12 +4,55 @@
 https://github.com/pizza1016/ptv-timetable/blob/trunk/tramtracker/asyncapi.py#L76
 Using aiohttp.client ClientSession
 - This uses async, and an event loop must be running (I don't know what this means...)
-  #+TITLE: Project Scratch
+* Requirements
+- =openmeteo-requests=
+- =pyserial=
+- =pandas=
+- =requests-cache=
+- =retry-requests=
+- =aiohttp=
+* How to develop
+Push and pull from the Raspberry Pi as needed. If you run into credentials trouble, run:
+#+begin_src sh
+bash ~/load_github_credentials.sh
+#+end_src
+
+* Automatically starting with systemd
+In order to run on boot, I created a Systemd Service, located at =/lib/systemd/system/rpi-lcd.service=.
+#+begin_src sh
+[Unit]
+Description=Run the python program to control the Arduino keypad and LCD screen
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kitchenpi
+WorkingDirectory=/home/<USERNAME>/Documents/RPi_LCD
+ExecStart=/home/<USERNAME>/Documents/RPi_LCD/env/bin/python main.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+
+Then, reload systemd, enable on boot, and start it now!
+#+begin_src sh
+sudo systemctl daemon-reload
+sudo systemctl enable rpi-lcd.service
+sudo systemctl start rpi-lcd.service
+#+end_src
+
 * TODOs
 ** Manual
 *** General
 - [ ] Set the python [[* Python testing][interpreter path]] in the python testing section correctly!
 - [ ] Change date format of clock app (DD MMM YYYY e.g. 02 FEB 2026)
+- [ ] Use async for button presses
+- [ ] Create settings app to control
+  - Brightness
+  - Hostname?
 ** Scanner
 Run scanner by moving cursor inside codeblock, then executing code =C-c C-c=
 #+NAME: scan-todos
