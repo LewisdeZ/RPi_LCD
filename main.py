@@ -3,12 +3,11 @@
 import serial
 import time
 
-from apps import Clock, Weather
+from apps import Clock, Weather, Settings
 from utils import write_to_screen, MenuScreen
 
 def main(menu_screen):
-    write_to_screen(ser, 'READY!', 0)
-    print("Ready for button inputs")
+    print("Ready for button inputs...")
     while True:
         if ser.in_waiting:
             line = ser.readline().decode().strip()
@@ -19,12 +18,13 @@ def main(menu_screen):
 if __name__ == '__main__':
     # Set up the arduino serial port
     ser = serial.Serial('/dev/ttyACM0', 9600, timeout=1)
-    time.sleep(1)  # wait for Arduino reset
+    time.sleep(2)  # wait for Arduino reset
 
     # Define an apps dictionary that contains the apps and their names
     apps = []
 
     # Add the apps to the dictionary
+    apps.append({"name": "settings", "app": Settings()})
     apps.append({"name": "clock", "app": Clock()})
     apps.append({"name": "weather", "app": Weather()})
 

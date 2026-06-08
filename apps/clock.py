@@ -10,6 +10,7 @@ class Clock:
             ampm: If True, format time using am/pm formatting (else 24 hour)
         '''
         self.ampm=ampm
+        self.app_string={0: "", 1: ""}
 
     def __call__(self):
         '''Get the current time as a dictionary
@@ -40,16 +41,24 @@ class Clock:
                 "%H:%M"
             )
 
-        return datetime_dict
+        self.app_string = datetime_dict
+
+        return self.app_string
 
     # Handling button controls
     def _up(self):
         self.ampm = not self.ampm
+        return self.__call__()
     def _down(self):
         self.ampm = not self.ampm
+        return self.__call__()
     def _left(self):
-        pass
+        # Pressing left always brings you back to home screen...
+        return None
     def _right(self):
+        print("Right from the clock")
+        return self.__call__()
+    def _select(self):
         pass
 
 
