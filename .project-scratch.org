@@ -11,6 +11,11 @@ Using aiohttp.client ClientSession
 - =requests-cache=
 - =retry-requests=
 - =aiohttp=
+* How to develop
+Push and pull from the Raspberry Pi as needed. If you run into credentials trouble, run:
+#+begin_src sh
+bash ~/load_github_credentials.sh
+#+end_src
 
 * TODOs
 ** Manual
