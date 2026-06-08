@@ -19,16 +19,46 @@ stateDiagram-v2
 ```
 ```mermaid
 stateDiagram-v2
-    MainMenu --> ClockApp   : SELECT (on Clock App)
-    MainMenu --> TimerApp   : SELECT (on Timer App)
-    MainMenu --> SettingsApp : SELECT (on Settings App)
+    MainMenu --> ClockApp   : RIGHT (on Clock App)
+    MainMenu --> WeatherApp   : RIGHT (on Weather App)
+    MainMenu --> SettingsApp : RIGHT (on Settings App)
     
-    ClockApp    --> MainMenu : RESET
-    TimerApp    --> MainMenu : RESET
-    SettingsApp --> MainMenu : RESET
+    ClockApp    --> MainMenu : SELECT/LEFT
+    WeatherApp    --> MainMenu : SELECT/LEFT
+    SettingsApp --> MainMenu : SELECT/LEFT
 ```
 
 # Clock
+```mermaid
+stateDiagram-v2
+
+    state ClockApp {
+        [*] --> Clock_12hr
+        Clock_12hr --> Clock_24hr : UP
+        Clock_24hr --> Clock_12hr : DOWN
+        note right of Clock_12hr
+            Line 1: 02 FEB 2026
+            Line 2: 23:19
+        end note
+    }
+```
+# Weather
+```mermaid
+stateDiagram-v2
+
+    state WeatherApp_menu {
+        [*] --> WeatherType1_Highlight
+        WeatherType1_Highlight --> WeatherType2_Highlight : DOWN
+        WeatherType1_Highlight --> WeatherTypeN_Highlight : DOWN (repeat)
+        WeatherType2_Highlight --> WeatherType1_Highlight : UP
+        WeatherTypeN_Highlight --> WeatherType2_Highlight : UP (repeat)
+        note right of WeatherType1_Highlight
+            Line 1: > MIN-MAX TEMPS
+            Line 2: WEATHER TYPE
+        end note
+    }
+```
+# Settings
 ```mermaid
 stateDiagram-v2
 

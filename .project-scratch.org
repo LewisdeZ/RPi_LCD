@@ -9,6 +9,7 @@ Using aiohttp.client ClientSession
 ** Manual
 *** General
 - [ ] Set the python [[* Python testing][interpreter path]] in the python testing section correctly!
+- [ ] Change date format of clock app (DD MMM YYYY e.g. 02 FEB 2026)
 ** Scanner
 Run scanner by moving cursor inside codeblock, then executing code =C-c C-c=
 #+NAME: scan-todos
